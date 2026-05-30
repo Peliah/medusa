@@ -1,0 +1,8 @@
+echo ""
+echo "📦 Merge complete — syncing dependencies with pnpm install..."
+if pnpm install; then
+  echo "✅ Dependencies are up to date."
+else
+  echo "❌ pnpm install failed — run it manually to finish syncing dependencies."
+  exit 1
+fi
