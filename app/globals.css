@@ -399,24 +399,7 @@
   display: none;
 }
 
-/* Tablet: builder + preview side by side */
-@media (min-width: 640px) {
-  .builder-main-layout {
-    grid-template-areas: "builder preview";
-    grid-template-columns: minmax(0, 1fr) minmax(
-        var(--builder-preview-min),
-        min(var(--builder-preview-max), 42vw)
-      );
-    grid-template-rows: minmax(0, 1fr);
-  }
-
-  .builder-main-layout__preview {
-    border-top: 0;
-    border-left: 1px solid var(--border);
-  }
-}
-
-/* Desktop: sidebar + builder + preview */
+/* Desktop: full sidebar + builder + preview */
 @media (min-width: 1024px) {
   .builder-main-layout {
     grid-template-areas: "sidebar builder preview";
@@ -433,6 +416,7 @@
   }
 
   .builder-main-layout__preview {
+    border-top: 0;
     border-left: 1px solid var(--border);
   }
 }
