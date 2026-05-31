@@ -432,6 +432,20 @@
   overscroll-behavior: contain;
 }
 
+@keyframes preview-flash {
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.preview-code-block--flash {
+  animation: preview-flash 300ms ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .landing-marquee-left,
   .landing-marquee-right {
@@ -461,5 +475,9 @@
   .landing-footer-brand-text.is-active {
     scale: 1;
     translate: 0 2%;
+  }
+
+  .preview-code-block--flash {
+    animation: none;
   }
 }

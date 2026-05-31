@@ -60,3 +60,16 @@ export function getComplexityDotClass(level: ComplexityLevel): string {
       return "bg-destructive"
   }
 }
+
+/** Maps complexity score to 1–5 filled dots (§7.13). Returns 0 when empty. */
+export function getComplexityDotCount(
+  score: number,
+  ruleCount: number
+): number {
+  if (ruleCount === 0) return 0
+  if (score <= 2) return 1
+  if (score <= 5) return 2
+  if (score <= 10) return 3
+  if (score <= 17) return 4
+  return 5
+}
