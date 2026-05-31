@@ -1,6 +1,8 @@
+#!/usr/bin/env sh
+
 echo ""
 echo "📝 Validating commit message with commitlint..."
-if npx --no-install commitlint --edit "$1"; then
+if pnpm exec commitlint --edit "$1"; then
   echo "✅ Commit message follows the conventional commit format."
 else
   echo "❌ Commit message rejected — see the rules above and reword your message."
