@@ -9,6 +9,7 @@ import { KeyboardShortcutModal } from "@/components/modals/keyboard-shortcut-mod
 import { ThemeToggle } from "@/components/landing/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { useBuilderKeyboardShortcuts } from "@/hooks/use-builder-keyboard-shortcuts"
+import { useQueryExecution } from "@/hooks/use-query-execution"
 import { useSchemaSwitch } from "@/hooks/use-schema-switch"
 import { isTreeRunnable } from "@/lib/query-engine/validator"
 import { getSchema, schemas } from "@/lib/schemas"
@@ -25,6 +26,7 @@ export function BuilderHeader() {
   const setShortcutsOpen = useUIStore((state) => state.setShortcutsOpen)
   const setSidebarOpen = useUIStore((state) => state.setSidebarOpen)
   const recordRun = useHistoryStore((state) => state.recordRun)
+  const execute = useQueryExecution().execute
 
   const canRunQuery = React.useMemo(
     () => isTreeRunnable(tree, getSchema(schemaId)),
@@ -35,7 +37,8 @@ export function BuilderHeader() {
     if (!canRunQuery) return
     recordRun(schemaId, tree)
     setResultsOpen(true)
-  }, [canRunQuery, recordRun, schemaId, setResultsOpen, tree])
+    void execute(schemaId, tree)
+  }, [canRunQuery, execute, recordRun, schemaId, setResultsOpen, tree])
 
   const handleOpenShortcuts = React.useCallback(() => {
     setShortcutsOpen(true)
