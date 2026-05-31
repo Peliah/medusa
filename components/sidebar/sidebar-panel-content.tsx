@@ -5,6 +5,7 @@ import { PresetItem } from "@/components/sidebar/preset-item"
 import { SavePresetInput } from "@/components/sidebar/save-preset-input"
 import { SchemaCard } from "@/components/sidebar/schema-card"
 import { SidebarSection } from "@/components/sidebar/sidebar-section"
+import { useSchemaSwitch } from "@/hooks/use-schema-switch"
 import { schemas } from "@/lib/schemas"
 import { useHistoryStore } from "@/store/history-store"
 import { useQueryStore } from "@/store/query-store"
@@ -24,9 +25,8 @@ function SectionCount({ count }: { count: number }) {
 }
 
 export function SidebarPanelContent({ onNavigate }: SidebarPanelContentProps) {
-  const schemaId = useQueryStore((state) => state.schemaId)
+  const { schemaId, switchSchema } = useSchemaSwitch()
   const tree = useQueryStore((state) => state.tree)
-  const setSchema = useQueryStore((state) => state.setSchema)
   const history = useHistoryStore((state) => state.history)
   const presets = useHistoryStore((state) => state.presets)
   const restoreHistory = useHistoryStore((state) => state.restoreHistory)
@@ -34,8 +34,7 @@ export function SidebarPanelContent({ onNavigate }: SidebarPanelContentProps) {
   const deletePreset = useHistoryStore((state) => state.deletePreset)
 
   function selectSchema(id: (typeof schemas)[number]["id"]) {
-    setSchema(id)
-    onNavigate?.()
+    switchSchema(id, { onConfirmed: onNavigate })
   }
 
   return (
