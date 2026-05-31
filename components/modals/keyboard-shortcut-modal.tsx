@@ -14,8 +14,6 @@ const shortcuts = [
   { keys: ["Ctrl", "Z"], action: "Undo" },
   { keys: ["Ctrl", "Shift", "Z"], action: "Redo" },
   { keys: ["Ctrl", "S"], action: "Save preset" },
-  { keys: ["Ctrl", "E"], action: "Export query" },
-  { keys: ["Ctrl", "I"], action: "Import query" },
   { keys: ["?"], action: "Show keyboard shortcuts" },
   { keys: ["Ctrl", "D"], action: "Duplicate focused rule" },
   { keys: ["Ctrl", "G"], action: "Wrap focused rule in group" },

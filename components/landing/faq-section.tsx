@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     q: "Can I save and share queries?",
-    a: "Yes — save named presets, browse query history, and export/import query trees as JSON.",
+    a: "Yes — save named presets and browse query history in the builder sidebar.",
   },
 ]
 
