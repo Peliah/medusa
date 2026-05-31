@@ -366,6 +366,11 @@
   overflow: hidden;
 }
 
+.builder-main-panels {
+  height: 100%;
+  min-height: 0;
+}
+
 .builder-main-layout {
   display: grid;
   height: 100%;
@@ -393,32 +398,6 @@
 .builder-main-layout__preview {
   grid-area: preview;
   border-top: 1px solid var(--border);
-}
-
-.builder-main-layout__sidebar {
-  display: none;
-}
-
-/* Desktop: full sidebar + builder + preview */
-@media (min-width: 1024px) {
-  .builder-main-layout {
-    grid-template-areas: "sidebar builder preview";
-    grid-template-columns:
-      var(--builder-sidebar-w)
-      minmax(0, 1fr)
-      minmax(var(--builder-preview-min), var(--builder-preview-max));
-    grid-template-rows: minmax(0, 1fr);
-  }
-
-  .builder-main-layout__sidebar {
-    display: block;
-    grid-area: sidebar;
-  }
-
-  .builder-main-layout__preview {
-    border-top: 0;
-    border-left: 1px solid var(--border);
-  }
 }
 
 /* Shared scrollable panel regions */
