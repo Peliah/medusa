@@ -21,6 +21,24 @@ export function findGroup(root: Group, groupId: string): Group | null {
   return null
 }
 
+export function findCondition(
+  root: Group,
+  conditionId: string
+): Condition | null {
+  if (root.id === conditionId) return root
+
+  for (const condition of root.conditions) {
+    if (condition.id === conditionId) return condition
+
+    if (isGroup(condition)) {
+      const found = findCondition(condition, conditionId)
+      if (found) return found
+    }
+  }
+
+  return null
+}
+
 export function findParentGroup(
   root: Group,
   conditionId: string
