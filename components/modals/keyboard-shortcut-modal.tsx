@@ -35,7 +35,8 @@ export function KeyboardShortcutModal({
         <DialogHeader>
           <DialogTitle className="font-heading">Keyboard shortcuts</DialogTitle>
           <DialogDescription>
-            Global builder shortcuts. Some actions ship in later milestones.
+            Global builder shortcuts. Click a rule or group to focus it before
+            using duplicate, wrap, or collapse shortcuts.
           </DialogDescription>
         </DialogHeader>
 

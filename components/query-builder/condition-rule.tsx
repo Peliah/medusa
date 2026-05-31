@@ -17,6 +17,7 @@ import { getDefaultValueForOperator } from "@/lib/query-engine/value-utils"
 import { getSchema } from "@/lib/schemas"
 import { cn } from "@/lib/utils"
 import { useQueryStore } from "@/store/query-store"
+import { useUIStore } from "@/store/ui-store"
 
 interface ConditionRuleProps {
   rule: Rule
@@ -32,6 +33,10 @@ export const ConditionRule = React.memo(function ConditionRule({
   const schemaId = useQueryStore((state) => state.schemaId)
   const updateRule = useQueryStore((state) => state.updateRule)
   const removeCondition = useQueryStore((state) => state.removeCondition)
+  const focusedConditionId = useUIStore((state) => state.focusedConditionId)
+  const setFocusedConditionId = useUIStore(
+    (state) => state.setFocusedConditionId
+  )
 
   const schema = getSchema(schemaId)
   const fieldDef = fields.find((field) => field.name === rule.field) ?? null
@@ -39,13 +44,24 @@ export const ConditionRule = React.memo(function ConditionRule({
   const isInvalid =
     validationMessage !== null &&
     (rule.field !== null || rule.operator !== null)
+  const isFocused = focusedConditionId === rule.id
 
   return (
     <div className="group/row">
       <div
+        role="button"
+        tabIndex={0}
+        onClick={() => setFocusedConditionId(rule.id)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault()
+            setFocusedConditionId(rule.id)
+          }
+        }}
         className={cn(
-          "flex flex-wrap items-center gap-2 rounded-lg border bg-background px-2 py-2",
-          isInvalid ? "border-destructive/60" : "border-border"
+          "flex flex-wrap items-center gap-2 rounded-lg border bg-background px-2 py-2 transition-shadow outline-none",
+          isInvalid ? "border-destructive/60" : "border-border",
+          isFocused && "ring-2 ring-ring ring-offset-2 ring-offset-background"
         )}
       >
         <DragHandle label="Drag rule to reorder" handleRef={dragHandleRef} />
@@ -78,7 +94,10 @@ export const ConditionRule = React.memo(function ConditionRule({
           variant="ghost"
           size="icon-xs"
           className="ml-auto"
-          onClick={() => removeCondition(rule.id)}
+          onClick={(event) => {
+            event.stopPropagation()
+            removeCondition(rule.id)
+          }}
           aria-label="Remove rule"
         >
           <TrashIcon className="size-3.5 text-muted-foreground" />
