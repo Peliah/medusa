@@ -23,8 +23,8 @@ export function QueryBuilderPanel() {
   const maxDepth = getMaxDepth(tree)
 
   return (
-    <main className="flex min-w-0 flex-1 flex-col overflow-hidden bg-background">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
+    <main className="builder-panel bg-background">
+      <div className="builder-panel__header flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
         <div>
           <h1 className="font-heading text-base font-semibold">
             Query builder
@@ -47,7 +47,7 @@ export function QueryBuilderPanel() {
         </Button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="builder-panel__body p-4">
         {ruleCount === 0 && groupCount === 0 ? (
           <div className="mb-4 rounded-xl border border-dashed border-border bg-card/50 px-4 py-8 text-center">
             <p className="font-heading text-lg font-medium">

@@ -52,7 +52,7 @@ export function BuilderHeader() {
             className="inline-flex shrink-0 items-center gap-2 font-heading text-lg font-semibold tracking-tight"
           >
             <MedusaHexLogo />
-            <span>MEDUSA</span>
+            <span className="hidden min-[480px]:inline">MEDUSA</span>
           </Link>
 
           <div className="min-w-0 flex-1 [scrollbar-width:none] overflow-x-auto [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -70,7 +70,9 @@ export function BuilderHeader() {
                   )}
                 >
                   <span>{schema.emoji}</span>
-                  {schema.name}
+                  <span className="hidden min-[540px]:inline">
+                    {schema.name}
+                  </span>
                 </button>
               ))}
             </div>

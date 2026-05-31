@@ -20,8 +20,8 @@ export function BuilderPreviewPanel() {
   const isEmpty = ruleCount === 0
 
   return (
-    <aside className="flex h-full min-h-0 w-full flex-col border-l border-border bg-card">
-      <div className="shrink-0 border-b border-border px-4 py-3">
+    <aside className="builder-panel bg-card">
+      <div className="builder-panel__header border-b border-border px-4 py-3">
         <h2 className="font-heading text-sm font-semibold">Query preview</h2>
       </div>
 
@@ -31,9 +31,9 @@ export function BuilderPreviewPanel() {
           onValueChange={(value) =>
             setPreviewFormat(value as "sql" | "mongo" | "graphql")
           }
-          className="flex min-h-0 flex-1 flex-col"
+          className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden"
         >
-          <TabsList className="mb-3 h-8 w-full shrink-0">
+          <TabsList className="h-8 w-full shrink-0">
             <TabsTrigger value="sql" className="flex-1 gap-1 text-xs">
               <DatabaseIcon className="size-3" />
               SQL
@@ -52,9 +52,9 @@ export function BuilderPreviewPanel() {
             <TabsContent
               key={format}
               value={format}
-              className="mt-0 min-h-0 flex-1 overflow-hidden"
+              className="mt-0 min-h-0 flex-1 overflow-hidden outline-none"
             >
-              <pre className="h-full min-h-[12rem] overflow-auto rounded-lg border border-border bg-foreground p-4 font-mono text-xs leading-relaxed text-background">
+              <pre className="h-full overflow-auto overscroll-contain rounded-lg border border-border bg-foreground p-4 font-mono text-xs leading-relaxed text-background">
                 {isEmpty ? (
                   <code className="text-background/60">
                     {`-- No conditions added yet\n-- Add rules in the builder to generate a query`}
