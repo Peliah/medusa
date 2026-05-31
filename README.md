@@ -97,8 +97,10 @@ pnpm test
 
 Medusa deploys to **Vercel** via GitHub Actions (`.github/workflows/cd.yml`):
 
-- **Production** — push to `main`
-- **Preview** — pull requests targeting `main`
+- **CI runs first** — typecheck, lint, test, build (`.github/workflows/ci.yml`)
+- **CD runs only if CI succeeds** — triggered by the completed CI workflow
+- **Production** — after CI passes on push to `main`
+- **Preview** — after CI passes on pull requests targeting `main`
 
 ### One-time setup
 
