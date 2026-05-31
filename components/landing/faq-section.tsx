@@ -9,16 +9,16 @@ import { cn } from "@/lib/utils"
 
 const faqs = [
   {
-    q: "What is TOBi?",
-    a: "TOBi is a visual query builder for constructing complex, nested database filters without writing raw SQL, MongoDB, or GraphQL syntax by hand.",
+    q: "What is MEDUSA?",
+    a: "MEDUSA is a visual query builder for constructing complex, nested database filters without writing raw SQL, MongoDB, or GraphQL syntax by hand.",
   },
   {
     q: "Why visual instead of raw syntax?",
-    a: "Nested AND/OR logic is hard to read and easy to get wrong in text. TOBi makes structure visible — depth-colored groups, inline validation, and live preview across three output formats.",
+    a: "Nested AND/OR logic is hard to read and easy to get wrong in text. MEDUSA makes structure visible — depth-colored groups, inline validation, and live preview across three output formats.",
   },
   {
     q: "Which query formats are supported?",
-    a: "TOBi generates live preview output in SQL, MongoDB JSON, and GraphQL filter syntax — all from the same visual query tree.",
+    a: "MEDUSA generates live preview output in SQL, MongoDB JSON, and GraphQL filter syntax — all from the same visual query tree.",
   },
   {
     q: "Does it connect to a real database?",

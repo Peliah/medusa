@@ -90,7 +90,7 @@ export function LandingHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
               <SheetHeader>
-                <SheetTitle className="font-heading">TOBi</SheetTitle>
+                <SheetTitle className="font-heading">MEDUSA</SheetTitle>
               </SheetHeader>
               <nav className="mt-6 flex flex-col gap-1">
                 {navLinks.map((link) => (

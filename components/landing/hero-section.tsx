@@ -37,16 +37,16 @@ export function HeroSection() {
 
           <h1 className="font-heading text-4xl font-medium tracking-tight text-balance sm:text-5xl lg:text-6xl">
             Build more{" "}
-            <em className="font-heading not-italic text-muted-foreground">
+            <em className="font-heading text-muted-foreground not-italic">
               capable
             </em>{" "}
             queries
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground text-pretty sm:text-lg">
-            TOBi is the modern TypeScript stack for constructing nested database
-            filters — preview SQL, MongoDB, and GraphQL without writing raw
-            syntax.
+          <p className="mx-auto mt-5 max-w-2xl text-base text-pretty text-muted-foreground sm:text-lg">
+            MEDUSA is the modern TypeScript stack for constructing nested
+            database filters — preview SQL, MongoDB, and GraphQL without writing
+            raw syntax.
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4">
@@ -54,7 +54,10 @@ export function HeroSection() {
               <Button asChild size="lg" className="rounded-none border-0">
                 <Link href="/builder">Start building</Link>
               </Button>
-              <span className="hidden h-6 w-px bg-border sm:block" aria-hidden />
+              <span
+                className="hidden h-6 w-px bg-border sm:block"
+                aria-hidden
+              />
               <button
                 type="button"
                 onClick={handleCopy}

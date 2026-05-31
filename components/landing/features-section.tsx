@@ -61,8 +61,8 @@ export function FeaturesSection() {
             Everything you need to ship filters fast
           </h2>
           <p className="mt-3 text-muted-foreground">
-            TOBi is built for teams who need Postman-grade query building without
-            leaving the browser.
+            MEDUSA is built for teams who need Postman-grade query building
+            without leaving the browser.
           </p>
         </div>
 
@@ -72,9 +72,7 @@ export function FeaturesSection() {
               key={feature.title}
               className={cn(
                 "group rounded-2xl border bg-card p-6 transition-all duration-500 hover:border-primary/40 hover:shadow-md",
-                inView
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-6 opacity-0"
+                inView ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
               )}
               style={{ transitionDelay: `${i * 80}ms` }}
             >

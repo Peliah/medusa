@@ -1,10 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import {
-  GithubLogoIcon,
-  TwitterLogoIcon,
-} from "@phosphor-icons/react"
+import { GithubLogoIcon, TwitterLogoIcon } from "@phosphor-icons/react"
 
 import { FooterBrandMark } from "@/components/landing/footer-brand-mark"
 import { Button } from "@/components/ui/button"
@@ -80,9 +77,12 @@ export function LandingFooter() {
               Newsletter
             </p>
             <p className="mt-4 text-sm text-muted-foreground">
-              Get updates on TOBi releases.
+              Get updates on MEDUSA releases.
             </p>
-            <form className="mt-3 flex gap-2" onSubmit={(e) => e.preventDefault()}>
+            <form
+              className="mt-3 flex gap-2"
+              onSubmit={(e) => e.preventDefault()}
+            >
               <Input
                 type="email"
                 placeholder="you@company.com"
@@ -120,7 +120,7 @@ export function LandingFooter() {
           </div>
 
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} TOBi · Query anything. Visually.
+            © {new Date().getFullYear()} MEDUSA · Query anything. Visually.
           </p>
         </div>
       </div>

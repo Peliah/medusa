@@ -9,7 +9,7 @@ export function HeroDashboardMock() {
           <span className="size-2 rounded-full bg-chart-4" />
           <span className="size-2 rounded-full bg-muted-foreground/40" />
           <span className="ml-2 font-mono text-[10px] text-muted-foreground">
-            tobi — query builder
+            MEDUSA — query builder
           </span>
         </div>
 
@@ -60,7 +60,9 @@ export function HeroDashboardMock() {
           <span className="text-chart-2">SELECT</span> *{" "}
           <span className="text-chart-2">FROM</span> agents{" "}
           <span className="text-chart-2">WHERE</span> clearanceLevel ={" "}
-          <span className="text-primary-foreground/80">&apos;LEVEL_5&apos;</span>
+          <span className="text-primary-foreground/80">
+            &apos;LEVEL_5&apos;
+          </span>
         </div>
       </div>
     </div>
