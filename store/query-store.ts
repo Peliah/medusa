@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import { current, isDraft } from "immer"
+import { nanoid } from "nanoid"
 import { immer } from "zustand/middleware/immer"
 
 import {
@@ -7,13 +8,18 @@ import {
   createRootGroup,
   createRule,
 } from "@/lib/query-engine/factory"
-import { findGroup, findParentGroup } from "@/lib/query-engine/tree-utils"
+import {
+  findGroup,
+  findParentGroup,
+  isRule,
+} from "@/lib/query-engine/tree-utils"
 import type {
   Group,
   LogicOperator,
   Rule,
   SchemaId,
 } from "@/lib/query-engine/types"
+import { useUIStore } from "@/store/ui-store"
 
 const HISTORY_LIMIT = 50
 
@@ -43,6 +49,9 @@ interface QueryStore {
   setSchema: (schemaId: SchemaId) => void
   clearTree: () => void
   loadQuery: (schemaId: SchemaId, tree: Group) => void
+  duplicateRule: (ruleId: string) => string | null
+  wrapRuleInGroup: (ruleId: string) => string | null
+  collapseGroup: (groupId: string) => void
   undo: () => void
   redo: () => void
 }
@@ -108,6 +117,10 @@ export const useQueryStore = create<QueryStore>()(
           (condition) => condition.id !== conditionId
         )
       })
+
+      if (useUIStore.getState().focusedConditionId === conditionId) {
+        useUIStore.getState().setFocusedConditionId(null)
+      }
     },
 
     updateRule: (ruleId, patch) => {
@@ -219,6 +232,69 @@ export const useQueryStore = create<QueryStore>()(
         state.tree = cloneTree(tree)
         state.rootId = tree.id
         resetHistory(state)
+      })
+    },
+
+    duplicateRule: (ruleId) => {
+      const newRuleId = nanoid()
+
+      set((state) => {
+        const parent = findParentGroup(state.tree, ruleId)
+        if (!parent) return
+
+        const index = parent.conditions.findIndex(
+          (condition) => condition.id === ruleId
+        )
+        if (index === -1) return
+
+        const rule = parent.conditions[index]
+        if (!isRule(rule)) return
+
+        pushHistory(state)
+        parent.conditions.splice(index + 1, 0, {
+          ...structuredClone(rule),
+          id: newRuleId,
+        })
+      })
+
+      const parent = findParentGroup(get().tree, ruleId)
+      const duplicated = parent?.conditions.some(
+        (condition) => condition.id === newRuleId
+      )
+
+      return duplicated ? newRuleId : null
+    },
+
+    wrapRuleInGroup: (ruleId) => {
+      const wrapperId = nanoid()
+
+      set((state) => {
+        const parent = findParentGroup(state.tree, ruleId)
+        if (!parent) return
+
+        const index = parent.conditions.findIndex(
+          (condition) => condition.id === ruleId
+        )
+        if (index === -1) return
+
+        const rule = parent.conditions[index]
+        if (!isRule(rule)) return
+
+        pushHistory(state)
+        const wrapper = createGroup("AND")
+        wrapper.id = wrapperId
+        wrapper.conditions = [structuredClone(rule)]
+        parent.conditions[index] = wrapper
+      })
+
+      return findGroup(get().tree, wrapperId) ? wrapperId : null
+    },
+
+    collapseGroup: (groupId) => {
+      set((state) => {
+        const group = findGroup(state.tree, groupId)
+        if (!group || group.collapsed) return
+        group.collapsed = true
       })
     },
 

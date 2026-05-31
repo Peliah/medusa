@@ -16,6 +16,7 @@ import { isGroup } from "@/lib/query-engine/tree-utils"
 import type { Group } from "@/lib/query-engine/types"
 import { getSchema } from "@/lib/schemas"
 import { useQueryStore } from "@/store/query-store"
+import { useUIStore } from "@/store/ui-store"
 
 interface ConditionGroupProps {
   group: Group
@@ -47,9 +48,14 @@ export const ConditionGroup = React.memo(function ConditionGroup({
   const toggleGroupCollapse = useQueryStore(
     (state) => state.toggleGroupCollapse
   )
+  const focusedConditionId = useUIStore((state) => state.focusedConditionId)
+  const setFocusedConditionId = useUIStore(
+    (state) => state.setFocusedConditionId
+  )
 
   const schema = getSchema(schemaId)
   const depthColor = getDepthColor(depth)
+  const isFocused = focusedConditionId === group.id
 
   return (
     <GroupShell depthColor={depthColor}>
@@ -60,9 +66,11 @@ export const ConditionGroup = React.memo(function ConditionGroup({
         isRoot={isRoot}
         index={index}
         conditionCount={group.conditions.length}
+        focused={isFocused}
         dragHandleRef={dragHandleRef}
         onLogicChange={(logic) => updateGroupLogic(group.id, logic)}
         onToggleCollapse={() => toggleGroupCollapse(group.id)}
+        onFocus={() => setFocusedConditionId(group.id)}
         onRemove={isRoot ? undefined : () => removeCondition(group.id)}
       />
 

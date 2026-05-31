@@ -21,9 +21,11 @@ interface GroupToolbarProps {
   isRoot: boolean
   index: number
   conditionCount: number
+  focused?: boolean
   dragHandleRef?: (element: Element | null) => void
   onLogicChange: (logic: LogicOperator) => void
   onToggleCollapse: () => void
+  onFocus?: () => void
   onRemove?: () => void
 }
 
@@ -34,13 +36,29 @@ export function GroupToolbar({
   isRoot,
   index,
   conditionCount,
+  focused = false,
   dragHandleRef,
   onLogicChange,
   onToggleCollapse,
+  onFocus,
   onRemove,
 }: GroupToolbarProps) {
   return (
-    <div className="group/toolbar mb-3 flex flex-wrap items-center gap-2">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onFocus}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault()
+          onFocus?.()
+        }
+      }}
+      className={cn(
+        "group/toolbar mb-3 flex flex-wrap items-center gap-2 rounded-md transition-shadow outline-none",
+        focused && "ring-2 ring-ring ring-offset-2 ring-offset-background"
+      )}
+    >
       {dragHandleRef ? (
         <DragHandle label="Drag group to reorder" handleRef={dragHandleRef} />
       ) : null}
@@ -60,7 +78,10 @@ export function GroupToolbar({
           type="button"
           variant="ghost"
           size="icon-xs"
-          onClick={onToggleCollapse}
+          onClick={(event) => {
+            event.stopPropagation()
+            onToggleCollapse()
+          }}
           aria-label={collapsed ? "Expand group" : "Collapse group"}
           aria-expanded={!collapsed}
         >
@@ -77,7 +98,10 @@ export function GroupToolbar({
             type="button"
             variant="ghost"
             size="icon-xs"
-            onClick={onRemove}
+            onClick={(event) => {
+              event.stopPropagation()
+              onRemove()
+            }}
             aria-label="Remove group"
           >
             <TrashIcon className="size-3.5 text-destructive" />

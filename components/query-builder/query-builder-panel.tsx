@@ -6,7 +6,6 @@ import {
   ArrowUUpRightIcon,
   PlusIcon,
 } from "@phosphor-icons/react"
-import * as React from "react"
 
 import { ComplexityBanner } from "@/components/query-builder/complexity-banner"
 import { ConditionGroup } from "@/components/query-builder/condition-group"
@@ -36,37 +35,6 @@ export function QueryBuilderPanel() {
   const ruleCount = countRules(tree)
   const groupCount = countGroups(tree)
   const maxDepth = getMaxDepth(tree)
-
-  React.useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (!(event.metaKey || event.ctrlKey) || event.altKey) return
-
-      const target = event.target
-      if (
-        target instanceof HTMLElement &&
-        (target.isContentEditable ||
-          target.tagName === "INPUT" ||
-          target.tagName === "TEXTAREA" ||
-          target.tagName === "SELECT")
-      ) {
-        return
-      }
-
-      if (event.key.toLowerCase() === "z" && event.shiftKey && canRedo) {
-        event.preventDefault()
-        redo()
-        return
-      }
-
-      if (event.key.toLowerCase() === "z" && !event.shiftKey && canUndo) {
-        event.preventDefault()
-        undo()
-      }
-    }
-
-    window.addEventListener("keydown", onKeyDown)
-    return () => window.removeEventListener("keydown", onKeyDown)
-  }, [canRedo, canUndo, redo, undo])
 
   return (
     <QueryBuilderDndProvider>
