@@ -10,6 +10,7 @@ import { useSchemaSwitch } from "@/hooks/use-schema-switch"
 import { schemas } from "@/lib/schemas"
 import { useHistoryStore } from "@/store/history-store"
 import { useQueryStore } from "@/store/query-store"
+import { useUIStore } from "@/store/ui-store"
 
 interface SidebarPanelContentProps {
   onNavigate?: () => void
@@ -34,6 +35,10 @@ export function SidebarPanelContent({ onNavigate }: SidebarPanelContentProps) {
   const clearHistory = useHistoryStore((state) => state.clearHistory)
   const loadPreset = useHistoryStore((state) => state.loadPreset)
   const deletePreset = useHistoryStore((state) => state.deletePreset)
+  const presetsSectionOpen = useUIStore((state) => state.presetsSectionOpen)
+  const setPresetsSectionOpen = useUIStore(
+    (state) => state.setPresetsSectionOpen
+  )
 
   function selectSchema(id: (typeof schemas)[number]["id"]) {
     switchSchema(id, { onConfirmed: onNavigate })
@@ -101,6 +106,8 @@ export function SidebarPanelContent({ onNavigate }: SidebarPanelContentProps) {
             Presets <SectionCount count={presets.length} />
           </>
         }
+        open={presetsSectionOpen}
+        onOpenChange={setPresetsSectionOpen}
       >
         <div className="space-y-3">
           <SavePresetInput schemaId={schemaId} tree={tree} />
