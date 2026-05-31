@@ -1,6 +1,6 @@
 "use client"
 
-import { BuilderPreviewPanel } from "@/components/layout/builder-preview-panel"
+import { BuilderPreviewPanel } from "@/components/preview/builder-preview-panel"
 import { BuilderSidebar } from "@/components/layout/builder-sidebar"
 import { QueryBuilderPanel } from "@/components/query-builder/query-builder-panel"
 

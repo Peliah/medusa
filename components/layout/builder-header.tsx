@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import * as React from "react"
-import { PlayIcon, QuestionIcon } from "@phosphor-icons/react"
+import { PlayIcon, QuestionIcon, SidebarIcon } from "@phosphor-icons/react"
 
 import { MedusaHexLogo } from "@/components/layout/medusa-hex-logo"
 import { KeyboardShortcutModal } from "@/components/modals/keyboard-shortcut-modal"
@@ -13,6 +13,7 @@ import { isTreeRunnable } from "@/lib/query-engine/validator"
 import { getSchema, schemas } from "@/lib/schemas"
 import { cn } from "@/lib/utils"
 import { useQueryStore } from "@/store/query-store"
+import { useHistoryStore } from "@/store/history-store"
 import { useUIStore } from "@/store/ui-store"
 
 export function BuilderHeader() {
@@ -22,6 +23,8 @@ export function BuilderHeader() {
   const setResultsOpen = useUIStore((state) => state.setResultsOpen)
   const shortcutsOpen = useUIStore((state) => state.shortcutsOpen)
   const setShortcutsOpen = useUIStore((state) => state.setShortcutsOpen)
+  const setSidebarOpen = useUIStore((state) => state.setSidebarOpen)
+  const recordRun = useHistoryStore((state) => state.recordRun)
 
   const canRunQuery = React.useMemo(
     () => isTreeRunnable(tree, getSchema(schemaId)),
@@ -30,8 +33,9 @@ export function BuilderHeader() {
 
   const handleRunQuery = React.useCallback(() => {
     if (!canRunQuery) return
+    recordRun(schemaId, tree)
     setResultsOpen(true)
-  }, [canRunQuery, setResultsOpen])
+  }, [canRunQuery, recordRun, schemaId, setResultsOpen, tree])
 
   const handleOpenShortcuts = React.useCallback(() => {
     setShortcutsOpen(true)
@@ -46,7 +50,18 @@ export function BuilderHeader() {
   return (
     <>
       <header className="flex h-full shrink-0 items-center justify-between gap-3 border-b border-border bg-card px-4 sm:px-5">
-        <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
+        <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="shrink-0 lg:hidden"
+            aria-label="Open sidebar"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <SidebarIcon className="size-4" />
+          </Button>
+
           <Link
             href="/"
             className="inline-flex shrink-0 items-center gap-2 font-heading text-lg font-semibold tracking-tight"
@@ -55,7 +70,7 @@ export function BuilderHeader() {
             <span className="hidden min-[480px]:inline">MEDUSA</span>
           </Link>
 
-          <div className="min-w-0 flex-1 [scrollbar-width:none] overflow-x-auto [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className="min-w-0 flex-1 [scrollbar-width:none] overflow-x-auto [-ms-overflow-style:none] lg:hidden [&::-webkit-scrollbar]:hidden">
             <div className="flex w-max items-center rounded-4xl border border-border bg-muted/50 p-1">
               {schemas.map((schema) => (
                 <button
