@@ -44,7 +44,7 @@ export function LandingHeader() {
       <div className="landing-container flex h-14 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <span className="font-heading text-lg font-semibold tracking-tight">
-            TOBi
+            MEDUSA
           </span>
         </Link>
 

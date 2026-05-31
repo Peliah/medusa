@@ -40,7 +40,7 @@ export function FooterBrandMark() {
           } as React.CSSProperties
         }
       >
-        TOBi
+        MEDUSA
       </p>
     </div>
   )
