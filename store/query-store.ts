@@ -27,6 +27,7 @@ interface QueryStore {
   toggleGroupCollapse: (groupId: string) => void
   setSchema: (schemaId: SchemaId) => void
   clearTree: () => void
+  loadQuery: (schemaId: SchemaId, tree: Group) => void
 }
 
 function initState() {
@@ -114,6 +115,14 @@ export const useQueryStore = create<QueryStore>()(
     clearTree: () => {
       set((state) => {
         const tree = createRootGroup()
+        state.tree = tree
+        state.rootId = tree.id
+      })
+    },
+
+    loadQuery: (schemaId, tree) => {
+      set((state) => {
+        state.schemaId = schemaId
         state.tree = tree
         state.rootId = tree.id
       })
