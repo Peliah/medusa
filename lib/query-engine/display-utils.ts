@@ -1,15 +1,15 @@
 import type { Group } from "@/lib/query-engine/types"
 
-const depthColors = [
-  "var(--primary)",
-  "var(--chart-2)",
-  "var(--chart-3)",
-  "var(--chart-4)",
-  "var(--destructive)",
+const DEPTH_TOKENS = [
+  "var(--depth-0)",
+  "var(--depth-1)",
+  "var(--depth-2)",
+  "var(--depth-3)",
+  "var(--depth-4)",
 ] as const
 
 export function getDepthColor(depth: number): string {
-  return depthColors[Math.min(depth, depthColors.length - 1)]
+  return DEPTH_TOKENS[Math.min(depth, DEPTH_TOKENS.length - 1)]
 }
 
 const GROUP_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -20,4 +20,8 @@ export function getGroupLabel(index: number): string {
 
 export function countVisibleConditions(group: Group): number {
   return group.conditions.length
+}
+
+export function getCollapsedSummary(count: number): string {
+  return `▸ collapsed · ${count} condition${count === 1 ? "" : "s"}`
 }

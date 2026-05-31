@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { current, isDraft } from "immer"
 import { immer } from "zustand/middleware/immer"
 
 import {
@@ -14,10 +15,14 @@ import type {
   SchemaId,
 } from "@/lib/query-engine/types"
 
+const HISTORY_LIMIT = 50
+
 interface QueryStore {
   tree: Group
   schemaId: SchemaId
   rootId: string
+  past: Group[]
+  future: Group[]
 
   addRule: (groupId: string) => void
   addGroup: (parentGroupId: string) => void
@@ -25,14 +30,48 @@ interface QueryStore {
   updateRule: (ruleId: string, patch: Partial<Rule>) => void
   updateGroupLogic: (groupId: string, logic: LogicOperator) => void
   toggleGroupCollapse: (groupId: string) => void
+  reorderCondition: (
+    groupId: string,
+    fromIndex: number,
+    toIndex: number
+  ) => void
+  moveCondition: (
+    conditionId: string,
+    targetGroupId: string,
+    targetIndex: number
+  ) => void
   setSchema: (schemaId: SchemaId) => void
   clearTree: () => void
   loadQuery: (schemaId: SchemaId, tree: Group) => void
+  undo: () => void
+  redo: () => void
 }
 
 function initState() {
   const tree = createRootGroup()
-  return { tree, schemaId: "agents" as SchemaId, rootId: tree.id }
+  return {
+    tree,
+    schemaId: "agents" as SchemaId,
+    rootId: tree.id,
+    past: [] as Group[],
+    future: [] as Group[],
+  }
+}
+
+function cloneTree(tree: Group): Group {
+  const snapshot = isDraft(tree) ? current(tree) : tree
+  return structuredClone(snapshot)
+}
+
+function pushHistory(state: { past: Group[]; future: Group[]; tree: Group }) {
+  state.past.push(cloneTree(state.tree))
+  if (state.past.length > HISTORY_LIMIT) state.past.shift()
+  state.future = []
+}
+
+function resetHistory(state: { past: Group[]; future: Group[] }) {
+  state.past = []
+  state.future = []
 }
 
 export const useQueryStore = create<QueryStore>()(
@@ -41,6 +80,7 @@ export const useQueryStore = create<QueryStore>()(
 
     addRule: (groupId) => {
       set((state) => {
+        pushHistory(state)
         const group = findGroup(state.tree, groupId)
         if (!group) return
         group.conditions.push(createRule())
@@ -49,6 +89,7 @@ export const useQueryStore = create<QueryStore>()(
 
     addGroup: (parentGroupId) => {
       set((state) => {
+        pushHistory(state)
         const group = findGroup(state.tree, parentGroupId)
         if (!group) return
         group.conditions.push(createGroup())
@@ -60,6 +101,7 @@ export const useQueryStore = create<QueryStore>()(
       if (conditionId === rootId) return
 
       set((state) => {
+        pushHistory(state)
         const parent = findParentGroup(state.tree, conditionId)
         if (!parent) return
         parent.conditions = parent.conditions.filter(
@@ -70,6 +112,7 @@ export const useQueryStore = create<QueryStore>()(
 
     updateRule: (ruleId, patch) => {
       set((state) => {
+        pushHistory(state)
         const parent = findParentGroup(state.tree, ruleId)
         if (!parent) return
 
@@ -89,6 +132,7 @@ export const useQueryStore = create<QueryStore>()(
 
     updateGroupLogic: (groupId, logic) => {
       set((state) => {
+        pushHistory(state)
         const group = findGroup(state.tree, groupId)
         if (!group) return
         group.logic = logic
@@ -103,12 +147,60 @@ export const useQueryStore = create<QueryStore>()(
       })
     },
 
+    reorderCondition: (groupId, fromIndex, toIndex) => {
+      if (fromIndex === toIndex) return
+
+      set((state) => {
+        const group = findGroup(state.tree, groupId)
+        if (!group) return
+
+        const { conditions } = group
+        if (
+          fromIndex < 0 ||
+          toIndex < 0 ||
+          fromIndex >= conditions.length ||
+          toIndex >= conditions.length
+        ) {
+          return
+        }
+
+        pushHistory(state)
+        const [item] = conditions.splice(fromIndex, 1)
+        conditions.splice(toIndex, 0, item)
+      })
+    },
+
+    moveCondition: (conditionId, targetGroupId, targetIndex) => {
+      const { rootId } = get()
+      if (conditionId === rootId) return
+
+      set((state) => {
+        const parent = findParentGroup(state.tree, conditionId)
+        const targetGroup = findGroup(state.tree, targetGroupId)
+        if (!parent || !targetGroup || parent.id === targetGroupId) return
+
+        const fromIndex = parent.conditions.findIndex(
+          (condition) => condition.id === conditionId
+        )
+        if (fromIndex === -1) return
+
+        pushHistory(state)
+        const [item] = parent.conditions.splice(fromIndex, 1)
+        const clampedIndex = Math.max(
+          0,
+          Math.min(targetIndex, targetGroup.conditions.length)
+        )
+        targetGroup.conditions.splice(clampedIndex, 0, item)
+      })
+    },
+
     setSchema: (schemaId) => {
       set((state) => {
         state.schemaId = schemaId
         const tree = createRootGroup()
         state.tree = tree
         state.rootId = tree.id
+        resetHistory(state)
       })
     },
 
@@ -117,14 +209,38 @@ export const useQueryStore = create<QueryStore>()(
         const tree = createRootGroup()
         state.tree = tree
         state.rootId = tree.id
+        resetHistory(state)
       })
     },
 
     loadQuery: (schemaId, tree) => {
       set((state) => {
         state.schemaId = schemaId
-        state.tree = tree
+        state.tree = cloneTree(tree)
         state.rootId = tree.id
+        resetHistory(state)
+      })
+    },
+
+    undo: () => {
+      set((state) => {
+        if (state.past.length === 0) return
+        state.future.unshift(cloneTree(state.tree))
+        const previous = state.past.pop()
+        if (!previous) return
+        state.tree = previous
+        state.rootId = previous.id
+      })
+    },
+
+    redo: () => {
+      set((state) => {
+        if (state.future.length === 0) return
+        state.past.push(cloneTree(state.tree))
+        const next = state.future.shift()
+        if (!next) return
+        state.tree = next
+        state.rootId = next.id
       })
     },
   }))
@@ -133,4 +249,12 @@ export const useQueryStore = create<QueryStore>()(
 export function useActiveSchema() {
   const schemaId = useQueryStore((state) => state.schemaId)
   return schemaId
+}
+
+export function useCanUndo() {
+  return useQueryStore((state) => state.past.length > 0)
+}
+
+export function useCanRedo() {
+  return useQueryStore((state) => state.future.length > 0)
 }

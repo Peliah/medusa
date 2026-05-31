@@ -1,0 +1,115 @@
+"use client"
+
+import type { ReactNode } from "react"
+import { CaretRightIcon, TrashIcon } from "@phosphor-icons/react"
+import { motion } from "framer-motion"
+
+import { DragHandle } from "@/components/query-builder/drag-handle"
+import { LogicToggle } from "@/components/query-builder/logic-toggle"
+import { Button } from "@/components/ui/button"
+import {
+  getCollapsedSummary,
+  getGroupLabel,
+} from "@/lib/query-engine/display-utils"
+import type { LogicOperator } from "@/lib/query-engine/types"
+import { cn } from "@/lib/utils"
+
+interface GroupToolbarProps {
+  groupId: string
+  logic: LogicOperator
+  collapsed: boolean
+  isRoot: boolean
+  index: number
+  conditionCount: number
+  dragHandleRef?: (element: Element | null) => void
+  onLogicChange: (logic: LogicOperator) => void
+  onToggleCollapse: () => void
+  onRemove?: () => void
+}
+
+export function GroupToolbar({
+  groupId,
+  logic,
+  collapsed,
+  isRoot,
+  index,
+  conditionCount,
+  dragHandleRef,
+  onLogicChange,
+  onToggleCollapse,
+  onRemove,
+}: GroupToolbarProps) {
+  return (
+    <div className="group/toolbar mb-3 flex flex-wrap items-center gap-2">
+      {dragHandleRef ? (
+        <DragHandle label="Drag group to reorder" handleRef={dragHandleRef} />
+      ) : null}
+      <LogicToggle groupId={groupId} value={logic} onChange={onLogicChange} />
+      <span className="text-xs text-muted-foreground italic">
+        {isRoot ? "Root group" : getGroupLabel(index)}
+      </span>
+
+      {collapsed ? (
+        <span className="text-xs text-muted-foreground">
+          {getCollapsedSummary(conditionCount)}
+        </span>
+      ) : null}
+
+      <div className="ml-auto flex items-center gap-1">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-xs"
+          onClick={onToggleCollapse}
+          aria-label={collapsed ? "Expand group" : "Collapse group"}
+          aria-expanded={!collapsed}
+        >
+          <motion.span
+            animate={{ rotate: collapsed ? 0 : 180 }}
+            transition={{ type: "spring", stiffness: 320, damping: 24 }}
+            className="inline-flex"
+          >
+            <CaretRightIcon className="size-3.5" />
+          </motion.span>
+        </Button>
+        {!isRoot && onRemove ? (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-xs"
+            onClick={onRemove}
+            aria-label="Remove group"
+          >
+            <TrashIcon className="size-3.5 text-destructive" />
+          </Button>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
+interface GroupShellProps {
+  depthColor: string
+  className?: string
+  children: ReactNode
+}
+
+export function GroupShell({
+  depthColor,
+  className,
+  children,
+}: GroupShellProps) {
+  return (
+    <div
+      className={cn("rounded-lg border p-3", className)}
+      style={{
+        borderColor: `color-mix(in oklch, ${depthColor} 25%, var(--border))`,
+        background: `color-mix(in oklch, ${depthColor} 6%, transparent)`,
+        borderLeftWidth: 3,
+        borderLeftColor: depthColor,
+      }}
+    >
+      {children}
+    </div>
+  )
+}

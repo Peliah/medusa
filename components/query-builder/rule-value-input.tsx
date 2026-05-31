@@ -15,12 +15,14 @@ import type {
   RuleValue,
   SchemaField,
 } from "@/lib/query-engine/types"
+import { cn } from "@/lib/utils"
 
 interface RuleValueInputProps {
   field: SchemaField | null
   operator: OperatorValue | null
   value: RuleValue
   onChange: (value: RuleValue) => void
+  invalid?: boolean
 }
 
 export function RuleValueInput({
@@ -28,6 +30,7 @@ export function RuleValueInput({
   operator,
   value,
   onChange,
+  invalid = false,
 }: RuleValueInputProps) {
   if (!field || !operator || !operatorNeedsValue(operator)) {
     return (
@@ -58,7 +61,9 @@ export function RuleValueInput({
         value={typeof value === "string" ? value : ""}
         onValueChange={(next) => onChange(next)}
       >
-        <SelectTrigger className="h-8 flex-1 text-xs">
+        <SelectTrigger
+          className={cn("h-8 flex-1 text-xs", invalid && "border-destructive")}
+        >
           <SelectValue placeholder="Select value…" />
         </SelectTrigger>
         <SelectContent>
@@ -91,7 +96,10 @@ export function RuleValueInput({
         onChange(raw)
       }}
       placeholder="Value…"
-      className="h-8 flex-1 text-xs"
+      className={cn(
+        "h-8 flex-1 text-xs",
+        invalid && "border-destructive aria-invalid:border-destructive"
+      )}
       aria-label="Rule value"
     />
   )

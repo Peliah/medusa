@@ -70,7 +70,7 @@ export function BuilderHeader() {
             <span className="hidden min-[480px]:inline">MEDUSA</span>
           </Link>
 
-          <div className="min-w-0 flex-1 [scrollbar-width:none] overflow-x-auto [-ms-overflow-style:none] lg:hidden [&::-webkit-scrollbar]:hidden">
+          <div className="min-w-0 flex-1 scrollbar-none overflow-x-auto [-ms-overflow-style:none] lg:hidden [&::-webkit-scrollbar]:hidden">
             <div className="flex w-max items-center rounded-4xl border border-border bg-muted/50 p-1">
               {schemas.map((schema) => (
                 <button
