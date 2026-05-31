@@ -1,14 +1,16 @@
 "use client"
 
-import { Input } from "@/components/ui/input"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
+  BooleanToggle,
+  DateInput,
+  DateRangeInput,
+  EnumSelect,
+  NumberInput,
+  NumberRangeInput,
+  RegexInput,
+  TagInput,
+  TextInput,
+} from "@/components/inputs"
 import { operatorNeedsValue } from "@/lib/query-engine/operators"
 import type {
   OperatorValue,
@@ -40,67 +42,51 @@ export function RuleValueInput({
     )
   }
 
+  const inputProps = { value, onChange, invalid, className: "flex-1" }
+
   if (field.type === "boolean") {
+    return <BooleanToggle {...inputProps} />
+  }
+
+  if (operator === "between") {
+    if (field.type === "number") {
+      return <NumberRangeInput {...inputProps} />
+    }
+    if (field.type === "date") {
+      return <DateRangeInput {...inputProps} />
+    }
+  }
+
+  if (operator === "in" || operator === "not_in") {
     return (
-      <div className="flex h-8 flex-1 items-center gap-2">
-        <Switch
-          checked={value === true}
-          onCheckedChange={(checked) => onChange(checked)}
-          aria-label="Boolean value"
-        />
-        <span className="text-xs text-muted-foreground">
-          {value === true ? "true" : "false"}
-        </span>
-      </div>
+      <TagInput
+        {...inputProps}
+        options={field.type === "enum" ? field.enumValues : undefined}
+        placeholder={field.type === "enum" ? "Select values…" : "Add values…"}
+      />
     )
+  }
+
+  if (operator === "regex") {
+    return <RegexInput {...inputProps} />
   }
 
   if (field.type === "enum" && field.enumValues) {
-    return (
-      <Select
-        value={typeof value === "string" ? value : ""}
-        onValueChange={(next) => onChange(next)}
-      >
-        <SelectTrigger
-          className={cn("h-8 flex-1 text-xs", invalid && "border-destructive")}
-        >
-          <SelectValue placeholder="Select value…" />
-        </SelectTrigger>
-        <SelectContent>
-          {field.enumValues.map((option) => (
-            <SelectItem key={option} value={option} className="text-xs">
-              {option}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    )
+    return <EnumSelect {...inputProps} options={field.enumValues} />
+  }
+
+  if (field.type === "number") {
+    return <NumberInput {...inputProps} />
+  }
+
+  if (field.type === "date") {
+    return <DateInput {...inputProps} />
   }
 
   return (
-    <Input
-      type={
-        field.type === "number"
-          ? "number"
-          : field.type === "date"
-            ? "date"
-            : "text"
-      }
-      value={value === null ? "" : String(value)}
-      onChange={(event) => {
-        const raw = event.target.value
-        if (field.type === "number") {
-          onChange(raw === "" ? null : Number(raw))
-          return
-        }
-        onChange(raw)
-      }}
-      placeholder="Value…"
-      className={cn(
-        "h-8 flex-1 text-xs",
-        invalid && "border-destructive aria-invalid:border-destructive"
-      )}
-      aria-label="Rule value"
+    <TextInput
+      {...inputProps}
+      className={cn("flex-1", invalid && "border-destructive")}
     />
   )
 }
