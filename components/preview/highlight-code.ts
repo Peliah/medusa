@@ -46,13 +46,13 @@ function tokenClass(kind: TokenKind): string {
     case "number":
       return "text-amber-300"
     case "comment":
-      return "text-background/45"
+      return "text-zinc-500"
     case "operator":
       return "text-violet-300"
     case "property":
       return "text-cyan-300"
     default:
-      return "text-background"
+      return "text-zinc-100"
   }
 }
 
