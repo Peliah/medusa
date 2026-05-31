@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 echo ""
 echo "📦 Merge complete — syncing dependencies with pnpm install..."
 if pnpm install; then

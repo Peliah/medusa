@@ -1,4 +1,5 @@
-import { Geist, Geist_Mono, Outfit, Roboto_Slab } from "next/font/google"
+import { Geist_Mono, Outfit, Roboto_Slab } from "next/font/google"
+import type { Metadata } from "next"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -12,6 +13,12 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 })
+
+export const metadata: Metadata = {
+  title: "Medusa — Query anything. Visually.",
+  description:
+    "A developer-grade visual query builder. Nest conditions, preview SQL, MongoDB, and GraphQL in real time.",
+}
 
 export default function RootLayout({
   children,

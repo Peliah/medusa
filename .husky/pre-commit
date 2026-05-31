@@ -47,19 +47,21 @@ for file in $STAGED; do
   # ── Check 1: Long lines (the hiding technique) ──────────────────────────────
   BASENAME=$(basename "$file")
   case "$file" in
-    src/components/ui/*)
+    */components/ui/*)
       : # vendored shadcn components — long className/cva strings are expected
       ;;
-    src/*.ts | src/*.tsx | src/*.js | src/*.jsx)
-      # Hand-written source: never auto-truncate — that corrupts real code.
-      # Only long className lines are flagged; Prettier already wraps long
-      # imports, types, and JSX structure on its own.
-      LONG_LINE=$(awk 'length > 200 && /className/ { print NR; exit }' "$file")
-      if [ -n "$LONG_LINE" ]; then
-        echo "❌ [long-className] $file:$LONG_LINE — className line exceeds 200 chars."
-        echo "   Split it across cn() args so each line stays short."
-        FAILED=1
-      fi
+    app/*|components/*|hooks/*|lib/*)
+      case "$file" in
+        *.ts|*.tsx|*.js|*.jsx)
+          # Hand-written source: never auto-truncate — that corrupts real code.
+          LONG_LINE=$(awk 'length > 200 && /className/ { print NR; exit }' "$file")
+          if [ -n "$LONG_LINE" ]; then
+            echo "❌ [long-className] $file:$LONG_LINE — className line exceeds 200 chars."
+            echo "   Split it across cn() args so each line stays short."
+            FAILED=1
+          fi
+          ;;
+      esac
       ;;
     *)
       if echo "$BASENAME" | grep -qE "^($LONG_LINE_EXCLUDE)$"; then
@@ -142,7 +144,7 @@ fi
 # ── lint-staged ──────────────────────────────────────────
 echo ""
 echo "🧹 Running lint-staged on staged files..."
-if npx --no-install lint-staged; then
+if pnpm exec lint-staged; then
   echo "✅ lint-staged passed — proceeding with commit."
 else
   echo "❌ lint-staged failed — fix the issues above, re-stage, then commit again."
