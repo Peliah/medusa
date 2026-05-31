@@ -2,11 +2,25 @@ import {
   operatorNeedsValue,
   operatorLabels,
 } from "@/lib/query-engine/operators"
+import {
+  isDateRange,
+  isNumberRange,
+  isStringArray,
+} from "@/lib/query-engine/value-utils"
 import { countRules, isGroup, isRule } from "@/lib/query-engine/tree-utils"
 import type { Group, Rule, Schema } from "@/lib/query-engine/types"
 
 export interface ValidationResult {
   valid: boolean
+}
+
+function isValidRegex(pattern: string): boolean {
+  try {
+    new RegExp(pattern)
+    return true
+  } catch {
+    return false
+  }
 }
 
 export function getRuleValidationMessage(
@@ -21,6 +35,51 @@ export function getRuleValidationMessage(
 
   if (!operatorNeedsValue(rule.operator)) return null
 
+  if (rule.operator === "between") {
+    if (field.type === "number") {
+      if (!isNumberRange(rule.value)) {
+        return `Enter a range for ${field.label}`
+      }
+      if (rule.value.min === null || rule.value.max === null) {
+        return `Enter both bounds for ${field.label}`
+      }
+      if (rule.value.min > rule.value.max) {
+        return "Minimum must be less than or equal to maximum"
+      }
+      return null
+    }
+
+    if (field.type === "date") {
+      if (!isDateRange(rule.value)) {
+        return `Enter a date range for ${field.label}`
+      }
+      if (!rule.value.start || !rule.value.end) {
+        return `Select both dates for ${field.label}`
+      }
+      if (rule.value.start > rule.value.end) {
+        return "Start date must be before end date"
+      }
+      return null
+    }
+  }
+
+  if (rule.operator === "in" || rule.operator === "not_in") {
+    if (!isStringArray(rule.value) || rule.value.length === 0) {
+      return `Add at least one value for ${field.label}`
+    }
+    return null
+  }
+
+  if (rule.operator === "regex") {
+    if (typeof rule.value !== "string" || rule.value === "") {
+      return "Enter a regex pattern"
+    }
+    if (!isValidRegex(rule.value)) {
+      return "Enter a valid regex pattern"
+    }
+    return null
+  }
+
   if (rule.value === null || rule.value === "") {
     return `Enter a value for ${field.label}`
   }
@@ -31,6 +90,10 @@ export function getRuleValidationMessage(
 
   if (field.type === "number" && typeof rule.value !== "number") {
     return "Enter a valid number"
+  }
+
+  if (field.type === "date" && typeof rule.value !== "string") {
+    return "Select a date"
   }
 
   return null

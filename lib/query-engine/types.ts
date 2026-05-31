@@ -20,8 +20,32 @@ export type OperatorValue =
   | "lte"
   | "is_null"
   | "is_not_null"
+  | "regex"
+  | "between"
+  | "is_today"
+  | "is_this_week"
+  | "is_this_month"
+  | "in"
+  | "not_in"
 
-export type RuleValue = string | number | boolean | null
+export interface NumberRange {
+  min: number | null
+  max: number | null
+}
+
+export interface DateRange {
+  start: string | null
+  end: string | null
+}
+
+export type RuleValue =
+  | string
+  | number
+  | boolean
+  | null
+  | string[]
+  | NumberRange
+  | DateRange
 
 export interface Rule {
   id: string

@@ -13,6 +13,7 @@ import { ValidationError } from "@/components/query-builder/validation-error"
 import { Button } from "@/components/ui/button"
 import { getRuleValidationMessage } from "@/lib/query-engine/validator"
 import type { Rule, SchemaField } from "@/lib/query-engine/types"
+import { getDefaultValueForOperator } from "@/lib/query-engine/value-utils"
 import { getSchema } from "@/lib/schemas"
 import { cn } from "@/lib/utils"
 import { useQueryStore } from "@/store/query-store"
@@ -58,7 +59,10 @@ export const ConditionRule = React.memo(function ConditionRule({
           field={fieldDef}
           value={rule.operator}
           onChange={(operator) =>
-            updateRule(rule.id, { operator, value: null })
+            updateRule(rule.id, {
+              operator,
+              value: getDefaultValueForOperator(fieldDef, operator),
+            })
           }
           invalid={isInvalid && !!rule.field && !rule.operator}
         />

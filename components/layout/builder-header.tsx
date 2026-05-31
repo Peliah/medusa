@@ -9,6 +9,7 @@ import { KeyboardShortcutModal } from "@/components/modals/keyboard-shortcut-mod
 import { ThemeToggle } from "@/components/landing/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { useBuilderKeyboardShortcuts } from "@/hooks/use-builder-keyboard-shortcuts"
+import { useSchemaSwitch } from "@/hooks/use-schema-switch"
 import { isTreeRunnable } from "@/lib/query-engine/validator"
 import { getSchema, schemas } from "@/lib/schemas"
 import { cn } from "@/lib/utils"
@@ -18,8 +19,7 @@ import { useUIStore } from "@/store/ui-store"
 
 export function BuilderHeader() {
   const tree = useQueryStore((state) => state.tree)
-  const schemaId = useQueryStore((state) => state.schemaId)
-  const setSchema = useQueryStore((state) => state.setSchema)
+  const { schemaId, switchSchema } = useSchemaSwitch()
   const setResultsOpen = useUIStore((state) => state.setResultsOpen)
   const shortcutsOpen = useUIStore((state) => state.shortcutsOpen)
   const setShortcutsOpen = useUIStore((state) => state.setShortcutsOpen)
@@ -76,7 +76,7 @@ export function BuilderHeader() {
                 <button
                   key={schema.id}
                   type="button"
-                  onClick={() => setSchema(schema.id)}
+                  onClick={() => switchSchema(schema.id)}
                   className={cn(
                     "inline-flex shrink-0 items-center gap-1.5 rounded-4xl px-2.5 py-1 text-xs transition-colors sm:px-3",
                     schemaId === schema.id
