@@ -251,8 +251,9 @@ export const useQueryStore = create<QueryStore>()(
         if (!isRule(rule)) return
 
         pushHistory(state)
+        const snapshot = isDraft(rule) ? current(rule) : rule
         parent.conditions.splice(index + 1, 0, {
-          ...structuredClone(rule),
+          ...structuredClone(snapshot),
           id: newRuleId,
         })
       })
@@ -281,9 +282,10 @@ export const useQueryStore = create<QueryStore>()(
         if (!isRule(rule)) return
 
         pushHistory(state)
+        const snapshot = isDraft(rule) ? current(rule) : rule
         const wrapper = createGroup("AND")
         wrapper.id = wrapperId
-        wrapper.conditions = [structuredClone(rule)]
+        wrapper.conditions = [structuredClone(snapshot)]
         parent.conditions[index] = wrapper
       })
 
