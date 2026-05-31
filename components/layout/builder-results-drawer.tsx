@@ -2,13 +2,16 @@
 
 import { CaretUpIcon } from "@phosphor-icons/react"
 
-import { Button } from "@/components/ui/button"
+import { ResultsDrawerContent } from "@/components/results/results-drawer-content"
+import { Spinner } from "@/components/ui/spinner"
+import { useQueryExecution } from "@/hooks/use-query-execution"
 import { cn } from "@/lib/utils"
 import { useUIStore } from "@/store/ui-store"
 
 export function BuilderResultsDrawer() {
   const resultsOpen = useUIStore((state) => state.resultsOpen)
   const toggleResults = useUIStore((state) => state.toggleResults)
+  const { matchCount, isLoading, hasResults } = useQueryExecution()
 
   return (
     <div
@@ -24,7 +27,18 @@ export function BuilderResultsDrawer() {
       >
         <span className="text-muted-foreground">
           Results ·{" "}
-          <span className="text-foreground">Run a query to see matches</span>
+          {isLoading ? (
+            <span className="inline-flex items-center gap-1.5 text-foreground">
+              <Spinner className="size-3.5" />
+              Running…
+            </span>
+          ) : hasResults ? (
+            <span className="text-foreground">
+              {matchCount} {matchCount === 1 ? "match" : "matches"}
+            </span>
+          ) : (
+            <span className="text-foreground">Run a query to see matches</span>
+          )}
         </span>
         <CaretUpIcon
           className={cn(
@@ -35,14 +49,8 @@ export function BuilderResultsDrawer() {
       </button>
 
       {resultsOpen && (
-        <div className="flex h-[calc(100%-2.5rem)] min-h-0 flex-col items-center justify-center gap-3 overflow-y-auto px-4 pb-4">
-          <p className="text-sm text-muted-foreground">
-            Execution simulator coming soon. Build your query tree above, then
-            run it here.
-          </p>
-          <Button variant="outline" size="sm" onClick={toggleResults}>
-            Collapse
-          </Button>
+        <div className="h-[calc(100%-2.5rem)] min-h-0">
+          <ResultsDrawerContent />
         </div>
       )}
     </div>
