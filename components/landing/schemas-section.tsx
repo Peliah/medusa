@@ -8,16 +8,15 @@ import { cn } from "@/lib/utils"
 const schemas = [
   {
     id: "agents",
-    emoji: "🛸",
     name: "Agents",
-    description: "Covert intelligence operatives — codenames, clearance, missions.",
+    description:
+      "Covert intelligence operatives — codenames, clearance, missions.",
     records: 87,
     fields: 9,
     sample: "Ghost · LEVEL_5 · 47 missions",
   },
   {
     id: "cities",
-    emoji: "🌆",
     name: "Cities",
     description: "Global urban analytics — population, GDP, crime index.",
     records: 124,
@@ -26,7 +25,6 @@ const schemas = [
   },
   {
     id: "incidents",
-    emoji: "⚡",
     name: "Incidents",
     description: "System anomaly log — severity, status, response time.",
     records: 203,
@@ -85,7 +83,6 @@ export function SchemasSection() {
                       : "border-transparent bg-transparent hover:bg-card/80"
                   )}
                 >
-                  <span className="text-xl">{s.emoji}</span>
                   <div>
                     <p className="font-medium">{s.name}</p>
                     <p className="text-sm text-muted-foreground">
@@ -103,16 +100,13 @@ export function SchemasSection() {
               inView ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             )}
           >
-            <div className="flex items-center gap-3 border-b pb-4">
-              <span className="text-2xl">{schema.emoji}</span>
-              <div>
-                <p className="font-heading text-xl font-semibold">
-                  {schema.name}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {schema.records} records
-                </p>
-              </div>
+            <div className="border-b pb-4">
+              <p className="font-heading text-xl font-semibold">
+                {schema.name}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {schema.records} records
+              </p>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               {schema.description}
