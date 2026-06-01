@@ -25,7 +25,7 @@ export function CodeBlock({
     <pre
       key={flash ? code : undefined}
       className={cn(
-        "preview-code-block h-full overflow-auto overscroll-contain rounded-lg border border-zinc-800 bg-zinc-950 p-4 font-mono text-xs leading-relaxed text-zinc-100",
+        "preview-code-block h-full overflow-auto overscroll-contain rounded-md border border-zinc-800 bg-zinc-950 p-2 font-mono text-[11px] leading-relaxed text-zinc-100",
         flash && "preview-code-block--flash",
         className
       )}

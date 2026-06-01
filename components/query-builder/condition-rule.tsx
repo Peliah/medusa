@@ -59,9 +59,9 @@ export const ConditionRule = React.memo(function ConditionRule({
           }
         }}
         className={cn(
-          "flex flex-wrap items-center gap-2 rounded-lg border bg-background px-2 py-2 transition-shadow outline-none",
+          "flex flex-wrap items-center gap-1 rounded-md border bg-background px-1 py-1 transition-shadow outline-none",
           isInvalid ? "border-destructive/60" : "border-border",
-          isFocused && "ring-2 ring-ring ring-offset-2 ring-offset-background"
+          isFocused && "ring-1 ring-ring ring-offset-1 ring-offset-background"
         )}
       >
         <DragHandle label="Drag rule to reorder" handleRef={dragHandleRef} />

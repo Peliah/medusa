@@ -52,7 +52,7 @@ export function BuilderHeader() {
 
   return (
     <>
-      <header className="flex h-full shrink-0 items-center justify-between gap-3 border-b border-border bg-card px-4 sm:px-5">
+      <header className="flex h-full shrink-0 items-center justify-between gap-2 border-b border-border bg-card px-[var(--builder-pad-x)]">
         <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
           <Button
             type="button"

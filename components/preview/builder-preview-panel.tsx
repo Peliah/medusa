@@ -80,14 +80,14 @@ export function BuilderPreviewPanel() {
 
   return (
     <aside className="builder-panel bg-card">
-      <div className="builder-panel__header flex items-center justify-between gap-2 border-b border-border px-4 py-3">
-        <h2 className="font-heading text-sm font-semibold">Query preview</h2>
-        <div className="flex items-center gap-1">
+      <div className="builder-panel__header flex items-center justify-between gap-2 border-b border-border px-[var(--builder-pad-x)] py-[var(--builder-pad-y)]">
+        <span className="builder-section-label">Preview</span>
+        <div className="flex items-center gap-0.5">
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            className="h-7 gap-1 px-2 text-xs"
+            className="h-6 gap-1 px-1.5 text-[11px]"
             onClick={handleCopy}
             disabled={isEmpty}
           >
@@ -107,7 +107,7 @@ export function BuilderPreviewPanel() {
             type="button"
             variant="ghost"
             size="sm"
-            className="h-7 gap-1 px-2 text-xs"
+            className="h-6 gap-1 px-1.5 text-[11px]"
             onClick={handleExport}
             disabled={isEmpty}
           >
@@ -117,13 +117,13 @@ export function BuilderPreviewPanel() {
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-4">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-[var(--builder-pad-x)] pt-2 pb-2">
         <Tabs
           value={previewFormat}
           onValueChange={(value) => setPreviewFormat(value as PreviewFormat)}
-          className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden"
+          className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden"
         >
-          <TabsList className="h-8 w-full shrink-0">
+          <TabsList className="h-7 w-full shrink-0">
             <TabsTrigger value="sql" className="flex-1 gap-1 text-xs">
               <DatabaseIcon className="size-3" />
               SQL

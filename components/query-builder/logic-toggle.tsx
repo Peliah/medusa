@@ -15,7 +15,7 @@ export function LogicToggle({ groupId, value, onChange }: LogicToggleProps) {
   return (
     <LayoutGroup id={groupId}>
       <div
-        className="relative inline-flex rounded-4xl border border-border bg-muted/60 p-0.5"
+        className="relative inline-flex rounded-md border border-border bg-muted/40 p-px"
         role="radiogroup"
         aria-label="Group logic"
       >
@@ -27,7 +27,7 @@ export function LogicToggle({ groupId, value, onChange }: LogicToggleProps) {
             aria-checked={value === logic}
             onClick={() => onChange(logic)}
             className={cn(
-              "relative z-10 rounded-4xl px-2.5 py-1 text-[11px] font-semibold tracking-wide transition-colors",
+              "relative z-10 rounded-sm px-2 py-0.5 text-[10px] font-semibold tracking-wide transition-colors",
               value === logic
                 ? logic === "AND"
                   ? "text-primary-foreground"
@@ -39,7 +39,7 @@ export function LogicToggle({ groupId, value, onChange }: LogicToggleProps) {
               <motion.span
                 layoutId={`logic-toggle-${groupId}`}
                 className={cn(
-                  "absolute inset-0 rounded-4xl",
+                  "absolute inset-0 rounded-sm",
                   logic === "AND" ? "bg-primary" : "bg-chart-2"
                 )}
                 transition={{ type: "spring", stiffness: 420, damping: 32 }}

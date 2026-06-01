@@ -55,8 +55,8 @@ export function GroupToolbar({
         }
       }}
       className={cn(
-        "group/toolbar mb-3 flex flex-wrap items-center gap-2 rounded-md transition-shadow outline-none",
-        focused && "ring-2 ring-ring ring-offset-2 ring-offset-background"
+        "group/toolbar mb-1.5 flex flex-wrap items-center gap-1.5 rounded-sm transition-shadow outline-none",
+        focused && "ring-1 ring-ring ring-offset-1 ring-offset-background"
       )}
     >
       {dragHandleRef ? (
@@ -114,22 +114,28 @@ export function GroupToolbar({
 
 interface GroupShellProps {
   depthColor: string
+  isRoot?: boolean
   className?: string
   children: ReactNode
 }
 
 export function GroupShell({
   depthColor,
+  isRoot = false,
   className,
   children,
 }: GroupShellProps) {
+  if (isRoot) {
+    return <div className={cn("min-w-0", className)}>{children}</div>
+  }
+
   return (
     <div
-      className={cn("rounded-lg border p-3", className)}
+      className={cn("rounded-md border py-1.5 pr-1.5 pl-2", className)}
       style={{
-        borderColor: `color-mix(in oklch, ${depthColor} 25%, var(--border))`,
-        background: `color-mix(in oklch, ${depthColor} 6%, transparent)`,
-        borderLeftWidth: 3,
+        borderColor: `color-mix(in oklch, ${depthColor} 20%, var(--border))`,
+        background: `color-mix(in oklch, ${depthColor} 4%, transparent)`,
+        borderLeftWidth: 2,
         borderLeftColor: depthColor,
       }}
     >

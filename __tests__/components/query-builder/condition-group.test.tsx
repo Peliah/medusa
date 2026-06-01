@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest"
 
 import { ConditionGroup } from "@/components/query-builder/condition-group"
 import { QueryBuilderDndProvider } from "@/components/query-builder/query-builder-dnd-provider"
-import { buildRootWithRules } from "@/__tests__/utils/builders"
+import { buildGroup, buildRootWithRules } from "@/__tests__/utils/builders"
 import { resetAllStores } from "@/__tests__/utils/store"
 import { useQueryStore } from "@/store/query-store"
 
@@ -29,18 +29,10 @@ describe("ConditionGroup", () => {
     resetAllStores()
   })
 
-  it("renders empty state actions on the root group", () => {
+  it("renders empty state on the root group", () => {
     renderGroup()
 
-    expect(
-      screen.getByText("No conditions yet. Add a rule or nested group.")
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole("button", { name: /add rule/i })
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole("button", { name: /add group/i })
-    ).toBeInTheDocument()
+    expect(screen.getByText(/no conditions in this group/i)).toBeInTheDocument()
   })
 
   it("renders nested rules recursively", () => {
@@ -55,12 +47,23 @@ describe("ConditionGroup", () => {
     expect(screen.getAllByRole("combobox").length).toBeGreaterThan(0)
   })
 
-  it("adds a rule when the footer button is clicked", async () => {
+  it("adds a rule when a nested group footer button is clicked", async () => {
     const user = userEvent.setup()
-    renderGroup()
+    const nested = buildGroup([])
+    const tree = buildRootWithRules([])
+    tree.conditions = [nested]
 
-    await user.click(screen.getByRole("button", { name: /add rule/i }))
+    renderGroup(tree)
 
-    expect(useQueryStore.getState().tree.conditions).toHaveLength(1)
+    await user.click(screen.getByRole("button", { name: /add condition/i }))
+
+    const updated = useQueryStore
+      .getState()
+      .tree.conditions.find(
+        (condition) => condition.id === nested.id && "conditions" in condition
+      )
+    expect(
+      updated && "conditions" in updated ? updated.conditions : []
+    ).toHaveLength(1)
   })
 })

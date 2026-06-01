@@ -20,8 +20,8 @@ export function ComplexityIndicator({ tree }: ComplexityIndicatorProps) {
   const dotColor = getComplexityDotClass(level)
 
   return (
-    <div className="flex shrink-0 items-center justify-between gap-3 border-t border-border px-4 py-2.5">
-      <span className="text-xs text-muted-foreground">
+    <div className="flex shrink-0 items-center justify-between gap-2 border-t border-border px-[var(--builder-pad-x)] py-1.5">
+      <span className="text-[11px] text-muted-foreground">
         {ruleCount === 0 ? "Complexity" : label}
       </span>
       <div

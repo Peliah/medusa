@@ -58,7 +58,7 @@ export const ConditionGroup = React.memo(function ConditionGroup({
   const isFocused = focusedConditionId === group.id
 
   return (
-    <GroupShell depthColor={depthColor}>
+    <GroupShell depthColor={depthColor} isRoot={isRoot}>
       <GroupToolbar
         groupId={group.id}
         logic={group.logic}
@@ -84,10 +84,10 @@ export const ConditionGroup = React.memo(function ConditionGroup({
         className="overflow-hidden"
         aria-hidden={group.collapsed}
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           {group.conditions.length === 0 ? (
-            <p className="rounded-md border border-dashed border-border px-3 py-4 text-center text-xs text-muted-foreground">
-              No conditions yet. Add a rule or nested group.
+            <p className="py-1 text-[11px] text-muted-foreground">
+              No conditions in this group.
             </p>
           ) : (
             <AnimatePresence mode="popLayout" initial={false}>
@@ -122,28 +122,30 @@ export const ConditionGroup = React.memo(function ConditionGroup({
           )}
         </div>
 
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 border-dashed text-xs"
-            onClick={() => addRule(group.id)}
-          >
-            <PlusIcon className="size-3.5" />
-            Add rule
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 border-dashed text-xs"
-            onClick={() => addGroup(group.id)}
-          >
-            <PlusIcon className="size-3.5" />
-            Add group
-          </Button>
-        </div>
+        {!isRoot ? (
+          <div className="mt-1.5 flex flex-wrap gap-1">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 border-dashed px-2 text-[11px]"
+              onClick={() => addRule(group.id)}
+            >
+              <PlusIcon className="size-3" />
+              Add condition
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 border-dashed px-2 text-[11px]"
+              onClick={() => addGroup(group.id)}
+            >
+              <PlusIcon className="size-3" />
+              Add group
+            </Button>
+          </div>
+        ) : null}
       </motion.div>
     </GroupShell>
   )

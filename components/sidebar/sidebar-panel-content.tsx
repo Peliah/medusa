@@ -47,7 +47,7 @@ export function SidebarPanelContent({ onNavigate }: SidebarPanelContentProps) {
   return (
     <div className="flex flex-col">
       <SidebarSection title="Schemas">
-        <div className="space-y-2">
+        <div className="space-y-1">
           {schemas.map((schema) => (
             <SchemaCard
               key={schema.id}
@@ -85,7 +85,7 @@ export function SidebarPanelContent({ onNavigate }: SidebarPanelContentProps) {
             No queries run yet. Run a valid query to see history here.
           </p>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-1">
             {history.map((entry) => (
               <HistoryItem
                 key={entry.id}
@@ -116,7 +116,7 @@ export function SidebarPanelContent({ onNavigate }: SidebarPanelContentProps) {
               Save named presets to reload query trees quickly.
             </p>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-1">
               {presets.map((preset) => (
                 <PresetItem
                   key={preset.id}

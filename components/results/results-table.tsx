@@ -40,7 +40,7 @@ export function ResultsTable({
           {fields.map((field) => {
             const isActive = sortField === field.name
             return (
-              <TableHead key={field.name} className="h-9 px-3 text-xs">
+              <TableHead key={field.name} className="h-8 px-2 text-[11px]">
                 <button
                   type="button"
                   onClick={() => onSort(field.name)}
@@ -77,7 +77,7 @@ export function ResultsTable({
             )}
           >
             {fields.map((field) => (
-              <TableCell key={field.name} className="px-3 py-2">
+              <TableCell key={field.name} className="px-2 py-1.5 text-xs">
                 <ResultsCell value={record[field.name]} field={field} />
               </TableCell>
             ))}
