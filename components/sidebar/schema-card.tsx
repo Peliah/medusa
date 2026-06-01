@@ -22,10 +22,7 @@ export function SchemaCard({ schema, active, onSelect }: SchemaCardProps) {
           : "border-border bg-background hover:bg-muted/50"
       )}
     >
-      <div className="flex items-center gap-2">
-        <span>{schema.emoji}</span>
-        <span className="text-sm font-medium">{schema.name}</span>
-      </div>
+      <p className="text-sm font-medium">{schema.name}</p>
       <p className="mt-1 text-xs text-muted-foreground">
         {schema.recordCount} records · {schema.fields.length} fields
       </p>

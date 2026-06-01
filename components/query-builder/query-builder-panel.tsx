@@ -42,19 +42,14 @@ export function QueryBuilderPanel() {
         <div className="builder-panel__header flex flex-col gap-3 border-b border-border px-4 py-3">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg" aria-hidden>
-                  {schema.emoji}
-                </span>
-                <div>
-                  <h1 className="font-heading text-base font-semibold">
-                    {schema.name}
-                  </h1>
-                  <p className="text-xs text-muted-foreground">
-                    {ruleCount} rule{ruleCount === 1 ? "" : "s"} · {groupCount}{" "}
-                    nested group{groupCount === 1 ? "" : "s"} · depth {maxDepth}
-                  </p>
-                </div>
+              <div>
+                <h1 className="font-heading text-base font-semibold">
+                  {schema.name}
+                </h1>
+                <p className="text-xs text-muted-foreground">
+                  {ruleCount} rule{ruleCount === 1 ? "" : "s"} · {groupCount}{" "}
+                  nested group{groupCount === 1 ? "" : "s"} · depth {maxDepth}
+                </p>
               </div>
             </div>
 

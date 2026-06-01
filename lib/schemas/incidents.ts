@@ -3,7 +3,6 @@ import type { Schema } from "@/lib/query-engine/types"
 export const incidentsSchema: Schema = {
   id: "incidents",
   name: "Incidents",
-  emoji: "⚡",
   description: "System anomaly and event log",
   recordCount: 203,
   fields: [

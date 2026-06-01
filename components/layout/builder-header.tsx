@@ -87,10 +87,7 @@ export function BuilderHeader() {
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  <span>{schema.emoji}</span>
-                  <span className="hidden min-[540px]:inline">
-                    {schema.name}
-                  </span>
+                  {schema.name}
                 </button>
               ))}
             </div>
