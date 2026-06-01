@@ -4,6 +4,10 @@ import Link from "next/link"
 import { GithubLogoIcon, ListIcon } from "@phosphor-icons/react"
 import * as React from "react"
 
+import {
+  GITHUB_REPO_URL,
+  LANDING_SECTIONS,
+} from "@/components/landing/constants"
 import { ThemeToggle } from "@/components/landing/theme-toggle"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,10 +20,8 @@ import {
 import { cn } from "@/lib/utils"
 
 const navLinks = [
-  { href: "#features", label: "Product" },
-  { href: "#resources", label: "Resources" },
-  { href: "#demo", label: "Demo" },
-  { href: "#faq", label: "FAQ" },
+  { href: LANDING_SECTIONS.features, label: "Product" },
+  { href: LANDING_SECTIONS.resources, label: "Resources" },
 ]
 
 export function LandingHeader() {
@@ -64,13 +66,17 @@ export function LandingHeader() {
           <Button
             asChild
             variant="ghost"
-            size="sm"
+            size="icon-sm"
             className="hidden text-muted-foreground sm:inline-flex"
           >
-            <Link href="#">
+            <a
+              href={GITHUB_REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub repository"
+            >
               <GithubLogoIcon className="size-4" />
-              Docs
-            </Link>
+            </a>
           </Button>
           <ThemeToggle />
           <Button asChild size="sm" className="hidden sm:inline-flex">
@@ -102,6 +108,14 @@ export function LandingHeader() {
                     {link.label}
                   </Link>
                 ))}
+                <a
+                  href={GITHUB_REPO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg px-3 py-2.5 text-sm hover:bg-muted"
+                >
+                  GitHub
+                </a>
                 <Button asChild className="mt-4">
                   <Link href="/builder">Get started</Link>
                 </Button>

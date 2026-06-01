@@ -23,12 +23,12 @@ export function ResultsToolbar({
   }
 
   return (
-    <div className="flex shrink-0 items-center justify-end border-b border-border px-4 py-2">
+    <div className="flex shrink-0 items-center justify-end border-b border-border px-[var(--builder-pad-x)] py-1">
       <Button
         type="button"
         variant="outline"
         size="sm"
-        className="h-7 gap-1.5 text-xs"
+        className="h-6 gap-1 px-2 text-[11px]"
         onClick={handleExport}
         disabled={disabled || records.length === 0}
       >

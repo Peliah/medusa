@@ -75,7 +75,6 @@ export interface SchemaField {
 export interface Schema {
   id: SchemaId
   name: string
-  emoji: string
   description: string
   recordCount: number
   fields: SchemaField[]

@@ -16,17 +16,14 @@ export function SchemaCard({ schema, active, onSelect }: SchemaCardProps) {
       onClick={onSelect}
       aria-pressed={active}
       className={cn(
-        "w-full rounded-lg border px-3 py-2.5 text-left transition-colors",
+        "w-full rounded-md border px-2 py-1.5 text-left transition-colors",
         active
           ? "border-primary bg-primary/10"
           : "border-border bg-background hover:bg-muted/50"
       )}
     >
-      <div className="flex items-center gap-2">
-        <span>{schema.emoji}</span>
-        <span className="text-sm font-medium">{schema.name}</span>
-      </div>
-      <p className="mt-1 text-xs text-muted-foreground">
+      <p className="text-xs font-medium">{schema.name}</p>
+      <p className="mt-0.5 text-[11px] text-muted-foreground">
         {schema.recordCount} records · {schema.fields.length} fields
       </p>
     </button>

@@ -45,7 +45,7 @@ export function SidebarSection({
           type="button"
           onClick={toggleOpen}
           aria-expanded={isOpen}
-          className="flex min-w-0 flex-1 items-center justify-between gap-2 px-3 py-2.5 text-left text-xs font-semibold tracking-[0.08em] uppercase transition-colors hover:bg-muted/50"
+          className="flex min-w-0 flex-1 items-center justify-between gap-2 px-2.5 py-2 text-left text-[10px] font-semibold tracking-[0.08em] uppercase transition-colors hover:bg-muted/50"
         >
           <span className="flex min-w-0 items-center gap-1">{title}</span>
           {isOpen ? (
@@ -59,7 +59,7 @@ export function SidebarSection({
         ) : null}
       </div>
       {isOpen ? (
-        <div className={cn("px-3 pb-3", contentClassName)}>{children}</div>
+        <div className={cn("px-2 pb-2", contentClassName)}>{children}</div>
       ) : null}
     </section>
   )

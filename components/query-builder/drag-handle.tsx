@@ -21,7 +21,7 @@ export function DragHandle({
       ref={handleRef}
       aria-label={label}
       className={cn(
-        "flex size-7 shrink-0 cursor-grab touch-none items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity group-hover/row:opacity-100 group-hover/toolbar:opacity-100 active:cursor-grabbing",
+        "flex size-6 shrink-0 cursor-grab touch-none items-center justify-center rounded text-muted-foreground/50 transition-opacity group-hover/row:opacity-100 group-hover/toolbar:opacity-100 hover:text-muted-foreground active:cursor-grabbing",
         className
       )}
     >

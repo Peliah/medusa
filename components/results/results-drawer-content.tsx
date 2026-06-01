@@ -76,7 +76,7 @@ export function ResultsDrawerContent() {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <ResultsToolbar schema={schema} records={matches} />
-      <div className="min-h-0 flex-1 overflow-auto overscroll-contain px-2 py-1">
+      <div className="min-h-0 flex-1 overflow-auto overscroll-contain px-1 py-0.5">
         <ResultsTable
           records={pageRecords}
           fields={schema.fields}
@@ -85,7 +85,7 @@ export function ResultsDrawerContent() {
           onSort={handleSort}
         />
       </div>
-      <div className="shrink-0 border-t border-border px-4 py-2">
+      <div className="shrink-0 border-t border-border px-[var(--builder-pad-x)] py-1">
         <ResultsPagination
           page={safePage}
           pageSize={pageSize}

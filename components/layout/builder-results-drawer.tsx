@@ -13,46 +13,42 @@ export function BuilderResultsDrawer() {
   const toggleResults = useUIStore((state) => state.toggleResults)
   const { matchCount, isLoading, hasResults } = useQueryExecution()
 
+  const rowLabel = isLoading
+    ? "Running…"
+    : hasResults
+      ? `${matchCount} row${matchCount === 1 ? "" : "s"}`
+      : "Run a query"
+
   return (
     <div
       className={cn(
         "shrink-0 overflow-hidden border-t border-border bg-card transition-[height] duration-300 ease-out",
-        resultsOpen ? "h-[clamp(200px,35vh,400px)]" : "h-10"
+        resultsOpen ? "h-[clamp(11rem,30vh,22rem)]" : "h-9"
       )}
     >
       <button
         type="button"
         onClick={toggleResults}
-        className="flex h-10 w-full items-center justify-between px-4 text-sm"
+        className="flex h-9 w-full items-center justify-between gap-2 px-[var(--builder-pad-x)] text-xs"
       >
-        <span className="text-muted-foreground">
-          Results ·{" "}
-          {isLoading ? (
-            <span className="inline-flex items-center gap-1.5 text-foreground">
-              <Spinner className="size-3.5" />
-              Running…
-            </span>
-          ) : hasResults ? (
-            <span className="text-foreground">
-              {matchCount} {matchCount === 1 ? "match" : "matches"}
-            </span>
-          ) : (
-            <span className="text-foreground">Run a query to see matches</span>
-          )}
+        <span className="flex min-w-0 items-center gap-2">
+          <span className="builder-section-label">Results</span>
+          <span className="truncate text-muted-foreground">· {rowLabel}</span>
+          {isLoading ? <Spinner className="size-3 shrink-0" /> : null}
         </span>
         <CaretUpIcon
           className={cn(
-            "size-4 text-muted-foreground transition-transform",
+            "size-3.5 shrink-0 text-muted-foreground transition-transform",
             resultsOpen && "rotate-180"
           )}
         />
       </button>
 
-      {resultsOpen && (
-        <div className="h-[calc(100%-2.5rem)] min-h-0">
+      {resultsOpen ? (
+        <div className="h-[calc(100%-2.25rem)] min-h-0">
           <ResultsDrawerContent />
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

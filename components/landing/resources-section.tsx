@@ -3,7 +3,7 @@
 import Link from "next/link"
 import * as React from "react"
 
-import { QueryDemo } from "@/components/landing/query-demo"
+import { GITHUB_README_URL, SCHEMA_CHIPS } from "@/components/landing/constants"
 import { ScrollReveal } from "@/components/landing/scroll-reveal"
 import { SectionDivider } from "@/components/landing/section-divider"
 import { cn } from "@/lib/utils"
@@ -11,9 +11,7 @@ import { cn } from "@/lib/utils"
 const tabs = [
   { id: "templates", label: "with Templates" },
   { id: "schemas", label: "explore Schemas" },
-  { id: "demo", label: "try the Demo" },
   { id: "docs", label: "read the Docs" },
-  { id: "export", label: "export Queries" },
 ] as const
 
 type TabId = (typeof tabs)[number]["id"]
@@ -40,9 +38,43 @@ export function ResourcesSection() {
   const [active, setActive] = React.useState<TabId>("templates")
 
   const tabContent =
-    active === "demo" ? (
-      <div className="mt-10">
-        <QueryDemo embedded />
+    active === "schemas" ? (
+      <div className="mt-10 flex flex-wrap items-center gap-3">
+        {SCHEMA_CHIPS.map((schema) => (
+          <span
+            key={schema.id}
+            className="rounded-4xl border border-border px-3 py-1.5 text-xs"
+          >
+            {schema.label}
+          </span>
+        ))}
+        <Link
+          href="/builder"
+          className="text-sm text-primary transition-colors hover:text-primary/80"
+        >
+          Open the query builder
+        </Link>
+      </div>
+    ) : active === "docs" ? (
+      <div className="landing-resource-card mt-10 max-w-2xl p-6">
+        <p className="text-[11px] font-semibold tracking-widest text-primary uppercase">
+          Documentation
+        </p>
+        <h3 className="mt-3 font-heading text-xl font-medium">
+          Project README on GitHub
+        </h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Architecture, local setup, testing, and deployment notes live in the
+          repository README.
+        </p>
+        <a
+          href={GITHUB_README_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-block text-sm text-primary transition-colors hover:text-primary/80"
+        >
+          Read the README on GitHub
+        </a>
       </div>
     ) : (
       <div className="mt-10 grid gap-4 sm:grid-cols-3">
@@ -109,9 +141,14 @@ export function ResourcesSection() {
                     engines — the architecture behind MEDUSA.
                   </p>
                 </div>
-                <p className="mt-6 text-xs text-muted-foreground">
-                  Read the guide →
-                </p>
+                <a
+                  href={GITHUB_README_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Read the guide on GitHub
+                </a>
               </div>
               <div className="landing-resource-card">
                 <p className="text-sm text-muted-foreground">
@@ -120,12 +157,12 @@ export function ResourcesSection() {
                   drives its own operators, inputs, and mock records.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {["🛸 Agents", "🌆 Cities", "⚡ Incidents"].map((s) => (
+                  {SCHEMA_CHIPS.map((schema) => (
                     <span
-                      key={s}
+                      key={schema.id}
                       className="rounded-4xl border border-border px-3 py-1 text-xs"
                     >
-                      {s}
+                      {schema.label}
                     </span>
                   ))}
                 </div>
@@ -136,7 +173,7 @@ export function ResourcesSection() {
               href="/builder"
               className="mt-8 inline-block text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              Open the query builder →
+              Open the query builder
             </Link>
           </ScrollReveal>
         </div>

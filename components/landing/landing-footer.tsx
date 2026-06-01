@@ -1,49 +1,78 @@
 "use client"
 
 import Link from "next/link"
-import { GithubLogoIcon, TwitterLogoIcon } from "@phosphor-icons/react"
+import { GithubLogoIcon } from "@phosphor-icons/react"
 
+import {
+  GITHUB_README_URL,
+  GITHUB_REPO_URL,
+  LANDING_SECTIONS,
+} from "@/components/landing/constants"
 import { FooterBrandMark } from "@/components/landing/footer-brand-mark"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
-const columns = [
+type FooterLink = {
+  href: string
+  label: string
+  external?: boolean
+}
+
+const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: "Product",
     links: [
       { href: "/builder", label: "Query builder" },
-      { href: "#features", label: "Preview engine" },
-      { href: "#features", label: "Execution" },
-      { href: "#resources", label: "Schemas" },
+      { href: LANDING_SECTIONS.features, label: "Features" },
+      { href: LANDING_SECTIONS.resources, label: "Resources" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { href: "#resources", label: "Templates" },
-      { href: "#faq", label: "FAQ" },
-      { href: "#", label: "Architecture" },
-      { href: "#", label: "Changelog" },
+      { href: LANDING_SECTIONS.resources, label: "Templates" },
+      {
+        href: GITHUB_README_URL,
+        label: "README",
+        external: true,
+      },
     ],
   },
   {
     title: "Developers",
     links: [
-      { href: "#", label: "Docs" },
-      { href: "#", label: "GitHub" },
-      { href: "#", label: "Contributing" },
-      { href: "#", label: "Testing" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { href: "#", label: "About" },
-      { href: "#", label: "HNG Stage 8" },
-      { href: "#", label: "Contact" },
+      {
+        href: GITHUB_REPO_URL,
+        label: "GitHub",
+        external: true,
+      },
     ],
   },
 ]
+
+function FooterLinkItem({ link }: { link: FooterLink }) {
+  const className =
+    "text-sm text-muted-foreground transition-colors hover:text-foreground"
+
+  if (link.external) {
+    return (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
+        {link.label}
+      </a>
+    )
+  }
+
+  return (
+    <Link href={link.href} className={className}>
+      {link.label}
+    </Link>
+  )
+}
 
 export function LandingFooter() {
   return (
@@ -51,7 +80,7 @@ export function LandingFooter() {
       <FooterBrandMark />
 
       <div className="landing-container relative z-10">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {columns.map((col) => (
             <div key={col.title}>
               <p className="text-[11px] font-semibold tracking-[0.08em] text-muted-foreground uppercase">
@@ -60,12 +89,7 @@ export function LandingFooter() {
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      {link.label}
-                    </Link>
+                    <FooterLinkItem link={link} />
                   </li>
                 ))}
               </ul>
@@ -102,22 +126,15 @@ export function LandingFooter() {
             <span className="text-muted-foreground">Fully operational</span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Link
-              href="#"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-              aria-label="GitHub"
-            >
-              <GithubLogoIcon className="size-5" />
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-              aria-label="Twitter"
-            >
-              <TwitterLogoIcon className="size-5" />
-            </Link>
-          </div>
+          <a
+            href={GITHUB_REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+            aria-label="GitHub repository"
+          >
+            <GithubLogoIcon className="size-5" />
+          </a>
 
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} MEDUSA · Query anything. Visually.

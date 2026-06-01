@@ -3,7 +3,6 @@ import type { Schema } from "@/lib/query-engine/types"
 export const citiesSchema: Schema = {
   id: "cities",
   name: "Cities",
-  emoji: "🌆",
   description: "Global urban analytics data",
   recordCount: 124,
   fields: [
