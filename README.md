@@ -4,7 +4,10 @@
 
 Medusa is a visual query builder for constructing nested filter trees against schema-driven datasets. Build conditions in the UI, preview SQL / MongoDB / GraphQL output live, and run queries against mock data with sortable, paginated results.
 
-**Live demo:** _Add your Vercel production URL after the first deploy_
+**Live demo:** _Add your Vercel production URL after the first deploy_  
+**Demo video:** [Watch on YouTube](https://youtu.be/U5YjQ-Jzgxw)
+
+[![Medusa demo video](https://img.youtube.com/vi/U5YjQ-Jzgxw/maxresdefault.jpg)](https://youtu.be/U5YjQ-Jzgxw)
 
 | Route      | Description                                  |
 | ---------- | -------------------------------------------- |
