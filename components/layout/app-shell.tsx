@@ -1,4 +1,5 @@
 import { BuilderHeader } from "@/components/layout/builder-header"
+import { Toaster } from "@/components/ui/sonner"
 import { BuilderMain } from "@/components/layout/builder-main"
 import { BuilderResultsDrawer } from "@/components/layout/builder-results-drawer"
 import { SchemaSwitchDialog } from "@/components/modals/schema-switch-dialog"
@@ -16,6 +17,7 @@ export function AppShell() {
       <BuilderResultsDrawer />
       <BuilderSidebarDrawer />
       <SchemaSwitchDialog />
+      <Toaster richColors closeButton />
     </div>
   )
 }

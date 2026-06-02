@@ -4,6 +4,7 @@ import Link from "next/link"
 import * as React from "react"
 import { PlayIcon, QuestionIcon, SidebarIcon } from "@phosphor-icons/react"
 
+import { ImportExportMenu } from "@/components/layout/import-export-menu"
 import { MedusaHexLogo } from "@/components/layout/medusa-hex-logo"
 import { KeyboardShortcutModal } from "@/components/modals/keyboard-shortcut-modal"
 import { ThemeToggle } from "@/components/landing/theme-toggle"
@@ -110,6 +111,8 @@ export function BuilderHeader() {
             <span className="hidden sm:inline">Run query</span>
             <span className="sm:hidden">Run</span>
           </Button>
+
+          <ImportExportMenu />
 
           <Button
             type="button"
