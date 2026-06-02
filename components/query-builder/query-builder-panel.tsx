@@ -37,7 +37,7 @@ export function QueryBuilderPanel() {
   return (
     <QueryBuilderDndProvider>
       <main className="builder-panel bg-background">
-        <div className="builder-panel__header flex items-center justify-between gap-2 border-b border-border px-(--builder-pad-x) py-(--builder-pad-y)">
+        <div className="builder-panel__header flex items-center justify-between gap-2 border-b border-border px-[var(--builder-pad-x)] py-[var(--builder-pad-y)]">
           <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
             <span className="builder-section-label">Query</span>
             <span className="text-xs text-muted-foreground">
@@ -89,7 +89,7 @@ export function QueryBuilderPanel() {
           </div>
         </div>
 
-        <div className="builder-panel__body px-(--builder-pad-x) py-(--builder-pad-y)">
+        <div className="builder-panel__body px-[var(--builder-pad-x)] py-[var(--builder-pad-y)]">
           {ruleCount === 0 && groupCount === 0 ? (
             <p className="mb-2 text-xs text-muted-foreground">
               No rules yet — add a condition or a nested group.

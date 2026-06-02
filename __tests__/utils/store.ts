@@ -1,4 +1,5 @@
 import { createRootGroup } from "@/lib/query-engine/factory"
+import { useDatasetStore } from "@/store/dataset-store"
 import { useExecutionStore } from "@/store/execution-store"
 import { useHistoryStore } from "@/store/history-store"
 import { useQueryStore } from "@/store/query-store"
@@ -30,6 +31,10 @@ export function resetExecutionStore() {
   })
 }
 
+export function resetDatasetStore() {
+  useDatasetStore.setState({ imported: {} })
+}
+
 export function resetUIStore() {
   useUIStore.setState({
     resultsOpen: false,
@@ -46,5 +51,6 @@ export function resetAllStores() {
   resetQueryStore()
   resetHistoryStore()
   resetExecutionStore()
+  resetDatasetStore()
   resetUIStore()
 }

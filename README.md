@@ -4,7 +4,10 @@
 
 Medusa is a visual query builder for constructing nested filter trees against schema-driven datasets. Build conditions in the UI, preview SQL / MongoDB / GraphQL output live, and run queries against mock data with sortable, paginated results.
 
-**Live demo:** _Add your Vercel production URL after the first deploy_
+**Live demo:** _Add your Vercel production URL after the first deploy_  
+**Demo video:** [Watch on YouTube](https://youtu.be/U5YjQ-Jzgxw)
+
+[![Medusa demo video](https://img.youtube.com/vi/U5YjQ-Jzgxw/maxresdefault.jpg)](https://youtu.be/U5YjQ-Jzgxw)
 
 | Route      | Description                                  |
 | ---------- | -------------------------------------------- |
@@ -73,6 +76,15 @@ store/
 4. The **evaluator** filters mock records client-side when the user runs a query.
 5. **History** and **presets** persist in `localStorage` via `history-store`.
 
+### Import and export
+
+Use the **⋮** menu in the builder header to import or export JSON:
+
+- **Query** — `{ "kind": "query", "schemaId": "agents", "tree": { ... } }`
+- **Dataset** — `{ "kind": "dataset", "schemaId": "agents", "records": [ ... ] }`
+
+Imports are validated and sanitized: size limits, forbidden prototype keys, schema-aware field checks, duplicate record IDs, and recursive tree depth/node caps. Imported datasets override mock records for that schema until you reset to defaults.
+
 ### Design decisions
 
 - **Client-only execution** — mock data and evaluation run in the browser so the builder stays fast and deployable as a static Next.js app without a backend.
@@ -86,7 +98,7 @@ CI runs on every pull request and push to `main`:
 
 1. Typecheck
 2. Lint
-3. Vitest (`82` tests across query engine, stores, components, and hooks)
+3. Vitest (`111` tests across query engine, import validation, stores, components, and hooks)
 4. Production build
 
 ```bash
